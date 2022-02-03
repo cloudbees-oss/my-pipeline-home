@@ -4,6 +4,7 @@ pipeline {
         kubernetes {
             label 'maven'
             defaultContainer 'maven'
+            namespace 'cje-support-agents'
         }
     }
     
@@ -15,15 +16,15 @@ pipeline {
         }
         stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
             }
         }
     }
 
     post {
         success {
-           junit 'target/surefire-reports/**/*.xml' 
+                junit allowEmptyResults: true, testResults: "target/surefire-reports/*.xml" 
+            }
         }
-     }
-  }
+    }
 }
