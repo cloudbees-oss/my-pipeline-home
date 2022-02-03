@@ -2,7 +2,7 @@ pipeline {
     
     agent {
         kubernetes {
-            label 'maven'
+            inheritFrom 'maven'
             defaultContainer 'maven'
             namespace 'cje-support-agents'
         }
